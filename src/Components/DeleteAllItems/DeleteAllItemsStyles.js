@@ -19,7 +19,7 @@ export const DivBlur = styled.div`
 
 export const WindowToDelete = styled.div`
     background-color: rgba(10, 10, 50, 0.75);
-    border-radius: 50px 0px 50px 0px;
+    border-radius: 0px 50px 0px 50px;
     border: 2px solid #fafafa;
     backdrop-filter: blur(5px);
     box-shadow: 0px 0px 10px rgba(200, 50, 50, 0.1);

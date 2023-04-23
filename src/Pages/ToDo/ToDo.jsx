@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ButtonTransparent, ButtonUI } from "../../Components/ButtonUI/ButtonUIStyles"
 import { InputContainer, InputUI } from "../../Components/InputUI/InputStyles"
 import { LiItems, ULContainer } from "../../Components/TaskList/TaskListStyles";
@@ -6,18 +6,12 @@ import { FaTrash } from 'react-icons/fa'
 import DeleteAllItems from "../../Components/DeleteAllItems/DeleteAllItems";
 import { useFlagContext } from "../../Context/DataContext";
 import { MainTitle, ToDoContainer } from "./ToDoStyles";
-import { useEffect } from "react";
-
 
 const ToDo = () => {
-    
-    const [text, setText] = useState('');
-    const { visible, setVisible, todoList, setTodoList, setTitle, title} = useFlagContext();
-    useEffect(()=>{
-        document.title = title
-    }, [title])
 
-    setTitle('ToDo List')
+
+    const [text, setText] = useState('');
+    const { visible, setVisible, todoList, setTodoList } = useFlagContext();
 
     const saveToLocalStorage = todoList => {
         localStorage.setItem('task', JSON.stringify(todoList))
@@ -69,10 +63,14 @@ const ToDo = () => {
         saveToLocalStorage(todoList)
     }
 
+    useEffect(()=>{
+        document.title = `${!todoList.length? '' :  `(${todoList.length})`} ToDo - List`
+      }, [document.title = `${!todoList.length? '' :  `(${todoList.length})`} ToDo - List`])
+
     return (
         <ToDoContainer>
-            <MainTitle>ToDo List</MainTitle>
-            <InputContainer onSubmit={agregarLista}>
+            <MainTitle>ToDo LIST</MainTitle>
+            <InputContainer onSubmit={agregarLista} title="Ingresar una Tarea">
                 <InputUI
                     type="text"
                     onChange={handleInput}
@@ -80,12 +78,13 @@ const ToDo = () => {
                     autoComplete="off"
                     placeholder="Ingrese una tarea"
                 />
-                <ButtonUI type="submit">Agregar</ButtonUI>
+                <ButtonUI type="submit" title="Añadir tareas">Agregar</ButtonUI>
                 <ButtonUI
                     type='button'
                     color="true"
                     onClick={deleteList}
                     disabled={!todoList.length ? true : false}
+                    title={!todoList.length ? 'Deshabilitado': 'Eliminar todas las tareas'}
                 >Eliminar Lista</ButtonUI>
 
             </InputContainer>
@@ -94,7 +93,11 @@ const ToDo = () => {
                 {todoList.map(task => (
                     <LiItems key={task.id} >
                         {task.task}
-                        <ButtonTransparent className="trashIcon" data-idef={task.id}>
+                        <ButtonTransparent 
+                            className="trashIcon"
+                            data-idef={task.id}
+                            title="Eliminar tarea"
+                        >
                             <FaTrash
                                 style={{ color: 'rgba(235, 0, 70, 1)', padding: '2px', fontSize: '28px', pointerEvents: 'none' }}
                             />

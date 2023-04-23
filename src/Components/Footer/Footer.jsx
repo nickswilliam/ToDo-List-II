@@ -1,9 +1,12 @@
 import { FooterContainer, FooterText } from "./FooterStyles"
 
 const Footer = () => {
+  const fecha = new Date();
+  
+
   return (
     <FooterContainer>
-      <FooterText>Page created by Nicks William | Año: 2023</FooterText>
+      <FooterText>Page created by Nicks William | Año: {fecha.getFullYear()}</FooterText>
     </FooterContainer>
   )
 }

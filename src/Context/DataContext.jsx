@@ -7,9 +7,8 @@ export const FlagContextProvider = ({ children }) => {
 
     const [visible, setVisible] = useState(true);
     const [todoList, setTodoList] = useState(JSON.parse(localStorage.getItem('task')) ||[])
-    const [title, setTitle] = useState('')
     
-    const ContextData = { visible, setVisible, todoList, setTodoList, title, setTitle }
+    const ContextData = { visible, setVisible, todoList, setTodoList }
     
 
     return <FlagContext.Provider value={ContextData}>

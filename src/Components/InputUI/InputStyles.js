@@ -16,6 +16,7 @@ export const InputUI = styled.input`
         box-shadow: 0px 0px 10px rgba(210, 80, 0, 0.5);
     }
 
+
     @media (max-width: 768px){
         max-width: 680px;
         width: 100%;

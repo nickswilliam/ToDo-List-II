@@ -13,7 +13,7 @@ const DeleteAllItems = ({ show }) => {
     }
 
     const clickOutBox = e => {
-        if(!e.target.classList.contains('windowDelete')){
+        if (!e.target.classList.contains('windowDelete')) {
             setVisible(true)
         }
         return;
@@ -30,23 +30,33 @@ const DeleteAllItems = ({ show }) => {
     }
 
     return (
-        <>
             <DivBlur show={show} onClick={clickOutBox}>
                 <WindowToDelete className="windowDelete">
                     <ButtonTransparent style={{ alignSelf: 'flex-end', cursor: "pointer" }}
                         onClick={closeWindow}
+                        title="Cerrar Ventana"
                     >
-                        <AiOutlineClose size='24px'/>
+                        <AiOutlineClose size='24px' />
                     </ButtonTransparent>
                     <h2 style={{ fontWeight: 400 }}>¿Desea eliminar todos los Elementos?</h2>
 
                     <ContainerButtons>
-                        <ButtonUI color="true" onClick={deleteAllItems}>Si, Eliminar</ButtonUI>
-                        <ButtonUI dif="true" onClick={closeWindow}>Cancelar</ButtonUI>
+                        <ButtonUI
+                            color="true"
+                            onClick={deleteAllItems}
+                            title="Confirmar eliminación"
+                        >Si, Eliminar
+
+                        </ButtonUI>
+                        <ButtonUI 
+                            dif="true"
+                            onClick={closeWindow}
+                            title="Cancelar Eliminación"
+                        >Cancelar
+                        </ButtonUI>
                     </ContainerButtons>
                 </WindowToDelete>
             </DivBlur>
-        </>
     )
 }
 export default DeleteAllItems

@@ -9,7 +9,7 @@ export const HeaderNav = styled.header`
     border-bottom: 2px solid rgba(140, 140, 140, .8);
     height: 80px;
     width: 100%;
-    background-color: rgba(13, 14, 80, 0.6);
+    background-color: rgba(13, 14, 80, 0.8);
     backdrop-filter: blur(8px);
     box-shadow: 0px 4px 10px rgba(13, 14, 15, 0.5);
     position: fixed;
@@ -20,6 +20,7 @@ export const HeaderNav = styled.header`
 export const LogoImg = styled.img`
     width: 300px;
     padding: 4px;
+    cursor: pointer;
 
 `
 
@@ -39,8 +40,7 @@ export const LiItem = styled.li`
     list-style: none;
     list-style-type: none;
     text-decoration: none;
-    padding: 0px 20px;
-    opacity: 70%;
+    opacity: 75%;
     cursor: pointer;
 
     &:hover{
@@ -56,4 +56,5 @@ export const LinkItem = styled(Link)`
     display: flex;
     gap: 10px;
     align-items: center;
+    padding: 10px 20px;
 `

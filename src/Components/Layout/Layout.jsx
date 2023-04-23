@@ -3,13 +3,14 @@ import Navbar from "../NavBar/Navbar"
 import { LayoutContainer } from "./LayoutStyles"
 
 const Layout = ({ children }) => {
+
   return (
     <LayoutContainer>
-      <Navbar/>
+      <Navbar />
 
       {children}
 
-      <Footer/>
+      <Footer />
     </LayoutContainer>
   )
 }

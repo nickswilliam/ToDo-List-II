@@ -16,7 +16,7 @@ const Navbar = () => {
                         <LinkItem to='/'>
                             <FaHome
                                 size='22px'
-                                style={{ pointerEvents: 'none' }}
+                                pointerEvents='none'
                             />
                             Home
                         </LinkItem>
