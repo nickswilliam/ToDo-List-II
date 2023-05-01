@@ -4,21 +4,20 @@ import { InputContainer, InputUI } from "../../Components/InputUI/InputStyles"
 import { LiItems, ULContainer } from "../../Components/TaskList/TaskListStyles";
 import { FaTrash } from 'react-icons/fa'
 import DeleteAllItems from "../../Components/DeleteAllItems/DeleteAllItems";
-import { useFlagContext } from "../../Context/DataContext";
 import { MainTitle, ToDoContainer } from "./ToDoStyles";
+import { useDispatch, useSelector } from "react-redux";
+import {addItems, visibility, deleteItem, setError} from '../../redux/todoSlice/todoSlice'
 
 const ToDo = () => {
+    const {todoList, errorMsg, visible} = useSelector(state=>({
+        todoList: state.todo.todoList,
+        visible: state.todo.visible,
+        errorMsg: state.todo.errorMsg
+    }))
 
-
+    const dispatch = useDispatch();
     const [text, setText] = useState('');
-    const { visible, setVisible, todoList, setTodoList } = useFlagContext();
-
-    const saveToLocalStorage = todoList => {
-        localStorage.setItem('task', JSON.stringify(todoList))
-    }
-
-    saveToLocalStorage(todoList)
-
+    
     const handleInput = e => {
         setText(e.target.value)
     }
@@ -26,21 +25,15 @@ const ToDo = () => {
     const agregarLista = (e) => {
         e.preventDefault();
 
-        if (text === '') {
+        if (!text) {
+            dispatch(setError('Debe ingresar una tarea'))
+            setTimeout(() => { dispatch(setError('')) }, 2000)
             return;
         }
 
-        const todoListTemp = {
-            id: Date.now(),
-            task: text,
-        }
-
-        const taskList = [...todoList, todoListTemp]
-        setTodoList(taskList);
-        saveToLocalStorage(todoList)
-
-
+        dispatch(addItems({task: text}))
         setText('')
+       
     }
 
 
@@ -48,24 +41,21 @@ const ToDo = () => {
         e.preventDefault();
         if (!todoList.length) return;
 
-        setVisible(!visible)
+        dispatch(visibility(false))
         return;
     }
 
-    const deleteItem = e => {
+    const handleDelete = e => {
         if (!e.target.classList.contains('trashIcon')) return;
 
-
         const elementId = e.target.dataset.idef;
-        const taskFilter = todoList.filter(task => task.id != elementId)
-
-        setTodoList(taskFilter)
-        saveToLocalStorage(todoList)
+        console.log(elementId);
+        dispatch(deleteItem({id: elementId}))
     }
 
-    useEffect(()=>{
-        document.title = `${!todoList.length? '' :  `(${todoList.length})`} ToDo - List`
-      }, [document.title = `${!todoList.length? '' :  `(${todoList.length})`} ToDo - List`])
+    useEffect(() => {
+        document.title = `${!todoList.length ? '' : `(${todoList.length})`} ToDo - List`
+    }, [document.title = `${!todoList.length ? '' : `(${todoList.length})`} ToDo - List`])
 
     return (
         <ToDoContainer>
@@ -84,16 +74,24 @@ const ToDo = () => {
                     color="true"
                     onClick={deleteList}
                     disabled={!todoList.length ? true : false}
-                    title={!todoList.length ? 'Deshabilitado': 'Eliminar todas las tareas'}
+                    title={!todoList.length ? 'Deshabilitado' : 'Eliminar todas las tareas'}
                 >Eliminar Lista</ButtonUI>
 
             </InputContainer>
 
-            <ULContainer onClick={deleteItem}>
+            {errorMsg && <p style={{
+                color: 'rgb(252, 40, 100)',
+                fontSize: '24px',
+                textAlign: 'center',
+                fontWeight: '800',
+                textShadow: '4px 4px 10px rgba(13, 14, 15, 0.3)'
+            }}>{errorMsg}</p>}
+
+            <ULContainer onClick={handleDelete}>
                 {todoList.map(task => (
                     <LiItems key={task.id} >
                         {task.task}
-                        <ButtonTransparent 
+                        <ButtonTransparent
                             className="trashIcon"
                             data-idef={task.id}
                             title="Eliminar tarea"

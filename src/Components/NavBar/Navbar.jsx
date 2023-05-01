@@ -1,11 +1,11 @@
 import { HeaderNav, LiItem, LinkItem, LogoImg, Nav, UlList } from "./NavbarStyles"
 import Logo from '../../assets/img/logo/logo.png'
 import { FaHome, FaListOl, FaListUl, FaGamepad } from 'react-icons/fa'
-import { useFlagContext } from "../../Context/DataContext"
+import { useSelector } from "react-redux"
 
 const Navbar = () => {
 
-    const { todoList } = useFlagContext();
+    const todoList = useSelector(state => state.todo.todoList);
 
     return (
         <HeaderNav>

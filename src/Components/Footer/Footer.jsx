@@ -6,7 +6,7 @@ const Footer = () => {
 
   return (
     <FooterContainer>
-      <FooterText>Page created by Nicks William | Año: {fecha.getFullYear()}</FooterText>
+      <FooterText>Page created by Nicks William | Year: {fecha.getFullYear()}</FooterText>
     </FooterContainer>
   )
 }

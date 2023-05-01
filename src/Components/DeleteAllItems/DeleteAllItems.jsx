@@ -1,32 +1,27 @@
-
-import { useFlagContext } from "../../Context/DataContext"
+import { useDispatch } from "react-redux";
 import { ButtonTransparent, ButtonUI } from "../ButtonUI/ButtonUIStyles"
 import { ContainerButtons, DivBlur, WindowToDelete } from "./DeleteAllItemsStyles"
 import { AiOutlineClose } from 'react-icons/ai'
+import { deleteItems, visibility } from "../../redux/todoSlice/todoSlice";
 
 
 const DeleteAllItems = ({ show }) => {
-    const { setVisible, todoList, setTodoList } = useFlagContext();
-
-    const saveToLocalStorage = todoList => {
-        localStorage.setItem('task', JSON.stringify(todoList))
-    }
+    const dispatch = useDispatch();
 
     const clickOutBox = e => {
         if (!e.target.classList.contains('windowDelete')) {
-            setVisible(true)
+            dispatch(visibility(true))
         }
         return;
     }
 
     const closeWindow = () => {
-        setVisible(true)
+        dispatch(visibility(true))
     }
 
     const deleteAllItems = () => {
-        setVisible(true)
-        setTodoList([])
-        saveToLocalStorage(todoList)
+        dispatch(visibility(true))
+        dispatch(deleteItems())
     }
 
     return (
