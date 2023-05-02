@@ -42,7 +42,7 @@ const ToDo = () => {
         setText('')
     }
 
-
+    
     const deleteList = (e) => {
         e.preventDefault();
         if (!todoList.length) return;

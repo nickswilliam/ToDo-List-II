@@ -7,7 +7,7 @@ export const DivBlur = styled.div`
     background-color: rgba(13,14,15, 0.7);
     width: 100%;
     height: 100%;
-    z-index: 2;
+    z-index: 5;
     backdrop-filter: blur(3px);
     display: flex;
     align-items: center;

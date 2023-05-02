@@ -1,49 +1,43 @@
-import { MainTitle, PokeContainer } from "./PokeApiStyles"
+import { ErrorContainer, MainTitle, PokeContainer } from "./PokeApiStyles"
 import { InputUI, InputContainer } from "../../Components/InputUI/InputStyles"
 import { ButtonUI } from "../../Components/ButtonUI/ButtonUIStyles"
 import { useState, useEffect } from "react"
 import axios from "axios"
 import PokemonCard from "../../Components/PokemonCard/PokeCard/PokemonCard"
-import PokemonLogo from '../../assets/img/home/pokemon.png'
 import PokemonError from "../../Components/PokemonCard/PokemonError/PokemonError"
+import { useDispatch, useSelector } from "react-redux"
+import { getPokemon, errorPokemon } from "../../redux/pokemonSlice/pokemonSlice"
 
 const PokeApi = () => {
-  useEffect(()=>{
+  useEffect(() => {
     document.title = 'Pokemon - Search'
   }, [])
 
-  const initialPokemon = {
-    name: 'Así se vería tu pokemón', 
-    height: 12.2, 
-    weight: 72, 
-    sprites: {
-      other: {
-        home:{
-          front_default: PokemonLogo
-        }
-      } 
-    }
-  }
+  const { error, pokemon } = useSelector(state => ({
+    error: state.pokemons.error,
+    pokemon: state.pokemons.pokemon
+  }))
 
+  const dispatch = useDispatch();
   const [inputNum, setInputNum] = useState('')
-  const [error, setError] = useState(null)
-  const [data, setData] = useState(initialPokemon)
+
 
   const handlePokemon = async (id) => {
-    setError(null)
-    setData(null)
-
+    dispatch(getPokemon(null))
+    dispatch(errorPokemon(null))
     try {
       const idSearch = parseInt(id)
       const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idSearch}`)
-      setData(data)
+      dispatch(getPokemon(data))
     } catch (error) {
       console.log(error, 'error de la api request')
-      setError('Pokemon no encontrado, intenta con otro ID')
-      setData(null)
+      dispatch(errorPokemon('Pokemon no encontrado, intenta con otro ID'))
+      setTimeout(() => {
+        dispatch(errorPokemon(null))
+      }, 2500)
+      dispatch(getPokemon(null))
     }
   }
-
 
 
   const handleInput = e => {
@@ -53,7 +47,14 @@ const PokeApi = () => {
   const searchPokemon = e => {
     e.preventDefault();
 
-    if (inputNum === '') return;
+    if (!inputNum) {
+      dispatch(getPokemon(null))
+      dispatch(errorPokemon('Debe ingresar un ID para buscar pokemons'))
+      setTimeout(() => {
+        dispatch(errorPokemon(null))
+      }, 2500)
+      return;
+    }
 
     handlePokemon(inputNum)
     setInputNum('')
@@ -77,9 +78,11 @@ const PokeApi = () => {
 
       </InputContainer>
 
-      
-      {error && <PokemonError error={error}/>}
-      {data && <PokemonCard {...data}/>}
+      <ErrorContainer>
+        {error && <PokemonError error={error} />}
+      </ErrorContainer>
+
+      {!pokemon ? '' : <PokemonCard {...pokemon} />}
     </PokeContainer>
 
   )

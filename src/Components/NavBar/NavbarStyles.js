@@ -15,6 +15,7 @@ export const HeaderNav = styled.header`
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 3;
 `
 
 export const LogoImg = styled.img`

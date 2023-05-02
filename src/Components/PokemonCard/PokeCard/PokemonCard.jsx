@@ -1,7 +1,7 @@
 import { CardContainer, CardImg, CardTexts, CardTitle } from "./PokemonCardStyles"
 
-const PokemonCard = (data) => {
-const {name, height, weight, sprites} = data;
+const PokemonCard = (pokemon) => {
+const {name, height, weight, sprites} = pokemon;
   return (
     <CardContainer>
         <CardTitle>{name.toUpperCase()}</CardTitle>
