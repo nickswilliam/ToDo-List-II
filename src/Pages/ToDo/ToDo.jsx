@@ -4,7 +4,7 @@ import { InputContainer, InputUI } from "../../Components/InputUI/InputStyles"
 import { LiItems, ULContainer } from "../../Components/TaskList/TaskListStyles";
 import { FaTrash } from 'react-icons/fa'
 import DeleteAllItems from "../../Components/DeleteAllItems/DeleteAllItems";
-import { MainTitle, ToDoContainer } from "./ToDoStyles";
+import { ErrorContainer, MainTitle, ToDoContainer } from "./ToDoStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { addItems, visibility, deleteItem, setError } from '../../redux/todoSlice/todoSlice'
 
@@ -84,13 +84,18 @@ const ToDo = () => {
 
             </InputContainer>
 
-            {errorMsg && <p style={{
-                color: 'rgb(252, 40, 100)',
-                fontSize: '24px',
-                textAlign: 'center',
-                fontWeight: '800',
-                textShadow: '4px 4px 10px rgba(13, 14, 15, 0.3)'
-            }}>{errorMsg}</p>}
+            <ErrorContainer>
+                {errorMsg &&
+                    <p style={{
+                        color: 'rgb(252, 40, 100)',
+                        fontSize: '24px',
+                        textAlign: 'center',
+                        fontWeight: '800',
+                        textShadow: '4px 4px 10px rgba(13, 14, 15, 0.3)'
+                    }}>{errorMsg}
+                    </p>
+                }
+            </ErrorContainer>
 
             <ULContainer onClick={handleDelete}>
                 {todoList.map(task => (
@@ -105,8 +110,6 @@ const ToDo = () => {
                                 style={{ color: 'rgba(235, 0, 70, 1)', padding: '2px', fontSize: '28px', pointerEvents: 'none' }}
                             />
                         </ButtonTransparent>
-
-
                     </LiItems>
                 ))}
 

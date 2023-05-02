@@ -19,10 +19,9 @@ const todoSlices = createSlice({
         },
         deleteItem: (state, action) => {
             const id = action.payload.id
-            const filterState = state.todoList.filter((todo)=> todo.id != id)
+            const filterState = state.todoList.filter((todo)=> todo.id !== id)
             state.todoList = filterState
         },
-    
         deleteItems: state => {
             return initialState
         },
