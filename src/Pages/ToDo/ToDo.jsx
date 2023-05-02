@@ -6,10 +6,10 @@ import { FaTrash } from 'react-icons/fa'
 import DeleteAllItems from "../../Components/DeleteAllItems/DeleteAllItems";
 import { MainTitle, ToDoContainer } from "./ToDoStyles";
 import { useDispatch, useSelector } from "react-redux";
-import {addItems, visibility, deleteItem, setError} from '../../redux/todoSlice/todoSlice'
+import { addItems, visibility, deleteItem, setError } from '../../redux/todoSlice/todoSlice'
 
 const ToDo = () => {
-    const {todoList, errorMsg, visible} = useSelector(state=>({
+    const { todoList, errorMsg, visible } = useSelector(state => ({
         todoList: state.todo.todoList,
         visible: state.todo.visible,
         errorMsg: state.todo.errorMsg
@@ -17,7 +17,7 @@ const ToDo = () => {
 
     const dispatch = useDispatch();
     const [text, setText] = useState('');
-    
+
     const handleInput = e => {
         setText(e.target.value)
     }
@@ -31,9 +31,15 @@ const ToDo = () => {
             return;
         }
 
-        dispatch(addItems({task: text}))
+        if (todoList.some(todo => todo.task.toUpperCase() === text.toUpperCase())) {
+            dispatch(setError('La tarea ingresada ya existe. Intente nuevamente'))
+            setTimeout(() => { dispatch(setError('')) }, 2500)
+            setText('')
+            return
+        };
+
+        dispatch(addItems({ task: text }))
         setText('')
-       
     }
 
 
@@ -48,9 +54,8 @@ const ToDo = () => {
     const handleDelete = e => {
         if (!e.target.classList.contains('trashIcon')) return;
 
-        const elementId = e.target.dataset.idef;
-        console.log(elementId);
-        dispatch(deleteItem({id: elementId}))
+        const id = parseInt(e.target.dataset.id);
+        dispatch(deleteItem({ id: id }))
     }
 
     useEffect(() => {
@@ -93,7 +98,7 @@ const ToDo = () => {
                         {task.task}
                         <ButtonTransparent
                             className="trashIcon"
-                            data-idef={task.id}
+                            data-id={task.id}
                             title="Eliminar tarea"
                         >
                             <FaTrash

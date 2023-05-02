@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
     todoList: [],
@@ -18,8 +18,11 @@ const todoSlices = createSlice({
             state.todoList.push(newTask)
         },
         deleteItem: (state, action) => {
-            return state.todoList.filter((task) => task.id !== action.payload.id)
+            const id = action.payload.id
+            const filterState = state.todoList.filter((todo)=> todo.id != id)
+            state.todoList = filterState
         },
+    
         deleteItems: state => {
             return initialState
         },
