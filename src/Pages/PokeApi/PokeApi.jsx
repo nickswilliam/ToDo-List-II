@@ -25,6 +25,7 @@ const PokeApi = () => {
   const handlePokemon = async (id) => {
     dispatch(getPokemon(null))
     dispatch(errorPokemon(null))
+
     try {
       const idSearch = parseInt(id)
       const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idSearch}`)
@@ -32,6 +33,7 @@ const PokeApi = () => {
     } catch (error) {
       console.log(error, 'error de la api request')
       dispatch(errorPokemon('Pokemon no encontrado, intenta con otro ID'))
+
       setTimeout(() => {
         dispatch(errorPokemon(null))
       }, 2500)
